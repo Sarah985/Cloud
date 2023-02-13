@@ -1,22 +1,23 @@
 version: "3"
 services:
   lang_ident:
+    image: lang_ident
+    environment:
+      START_TIME: "00:00:10"
+      DURATION: "00:00:05"
     build:
       context: ./podAdrien/lang_ident
+      dockerfile: Dockerfile
     volumes:
-      - ./podAdrien/land_ident/sample_data:/sample_data
-    environment:
-      start_time: 10
-      duration: 05
-    command: >
-      /bin/bash -c "ffmpeg -i /app/videos/video.mp4 -vn -ar 48000 -ac 1 -ab 192k -f wav /app/audio/output.wav &&
-      ffmpeg -i /app/audio/output.wav -ss ${START_TIME} -t ${DURATION} /app/audio/output_cut.wav"
-      CMD ["python", "lang_ident.py"]
+      - ./podAdrien/lang_ident/sample_data:/sample_data
 
-  autosub:
+  subtitle:
+    image: subtitle
     build:
       context: ./Clouding
+      dockerfile: Dockerfile
+    depends_on:
+      - lang_ident
     volumes:
       - ./Clouding/videos:/videos
-    command: >
-      /bin/bash -c "autosub /videos/video.mp4"
+
