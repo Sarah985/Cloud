@@ -4,6 +4,15 @@ from tensorflow.keras.models import load_model
 from scipy.io.wavfile import read as wav_read
 from scipy.io.wavfile import write as wav_write
 import scipy.signal as sps
+import subprocess
+import os
+
+subprocess.call(['ffmpeg', '-i', 'sample_data/video.mp4', '-vn', '-ar', '48000', '-ac', '1', '-ab', '192k', '-f', 'wav', 'sample_data/output.wav'])
+
+start_time = os.environ.get('START_TIME', '00:00:00') # valeur par défaut de 00:00:00
+duration = os.environ.get('DURATION', '00:00:00') # valeur par défaut de 00:00:00
+
+subprocess.call( ['ffmpeg', '-i', 'sample_data/output.wav', '-ss', start_time, '-t', duration, 'sample_data/output_cut.wav'])
 
 # input restrictions
 length_s = 5
