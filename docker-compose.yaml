@@ -1,5 +1,13 @@
 version: "3"
 services:
+  pod_downscale:
+    container_name: downscale 
+    build: ./compression
+    #restart: always
+    volumes:
+      - ./videos:/videos
+      - ./videoscomp:/videoscomp  
+
   lang_ident:
     image: lang_ident
     environment:

@@ -13,6 +13,6 @@ RUN pip install -q -U pip==20.3
 RUN pip install scipy
 RUN pip install -q ffmpeg-python
 
-RUN apt-get install -y ffmpeg
+RUN apt-get update && apt-get install -y ffmpeg
 
 CMD ["python", "lang_ident.py", "--start-time", "$START_TIME", "--duration", "$DURATION"]
