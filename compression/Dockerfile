@@ -6,4 +6,4 @@ RUN pip install --upgrade pip
 RUN pip install moviepy
 
 CMD ["python3","./main.py"]
-#CMD ["ls"]
+
