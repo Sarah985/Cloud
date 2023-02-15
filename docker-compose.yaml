@@ -1,15 +1,14 @@
 version: "3"
 services:
-  pod_downscale:
-    container_name: downscale 
-    build: ./compression
-    #restart: always
-    volumes:
-      - ./videos:/videos
-      - ./videoscomp:/videoscomp  
+  #pod_downscale:
+    #container_name: downscale 
+    #build: ./compression
+    #volumes:
+      #- ./videos:/videos
+      #- ./videoscomp:/videoscomp  
 
   lang_ident:
-    image: lang_ident
+    image: bodrien/lang_ident:tag
     environment:
       START_TIME: "00:00:10"
       DURATION: "00:00:05"
@@ -17,7 +16,7 @@ services:
       context: ./podAdrien/lang_ident
       dockerfile: Dockerfile
     volumes:
-      - ./podAdrien/lang_ident/sample_data:/sample_data
+      - ./videos:/videos
 
   subtitle:
     image: subtitle
@@ -25,7 +24,18 @@ services:
       context: ./Clouding
       dockerfile: Dockerfile
     depends_on:
-      - lang_ident
+      lang_ident:
+        condition: service_completed_successfully
     volumes:
-      - ./Clouding/videos:/videos
+      - ./videos:/videos
+
+  storage:
+    image: alpine:latest
+    volumes :
+      - ./storage:/storage
+      - ./videos:/videos
+    depends_on:
+      subtitle:
+        condition: service_completed_successfully
+    command: sh -c "cp -r /videos/* /storage/ && rm -r /videos/*"
 
