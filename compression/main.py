@@ -33,17 +33,18 @@ def compress(listVideo):
   
  
   if (p!=0):
-    os.system('touch ../videoscomp/liste.txt')
-    for i in range(len(listVideo)) :
-      os.system('echo '+listVideo[i]+'.mp4 >> ../videoscomp/liste.txt')
-      try:
-        input_video = VideoFileClip(listVideo[i]+".mp4")
-        output_video = input_video.fx(vfx.resize, height=360)
-        output_video=output_video.resize(0.5)
-        output_video.write_videofile("../videoscomp/"+"video"+str(i)+".mp4",fps=30, preset="medium")
-      except:
-    	  print(listVideo[i]+".mp4 ne peut etre compressée . Revoir le nom du fichier")
-    os.system('rm *')
+    video=listVideo[0]
+    os.system('touch ../videoscomp/file.txt')
+    os.system('echo '+video+'.mp4 > ../videoscomp/file.txt')
+    try:
+      input_video = VideoFileClip(video+".mp4")
+      output_video = input_video.fx(vfx.resize, height=360)
+      output_video=output_video.resize(0.5)
+      output_video.write_videofile("../videoscomp/"+"video.mp4",fps=30, preset="medium")
+      os.system('rm '+video+'.mp4')
+    except:
+      print(video+".mp4 ne peut etre compressée . Revoir le nom du fichier")
+    
   
     
 
