@@ -34,13 +34,13 @@ def compress(listVideo):
  
   if (p!=0):
     video=listVideo[0]
-    os.system('touch ../videoscomp/file.txt')
-    os.system('echo '+video+'.mp4 > ../videoscomp/file.txt')
+    os.system('touch ../videos/file.txt')
+    os.system('echo '+video+'.mp4 > ../videos/file.txt')
     try:
       input_video = VideoFileClip(video+".mp4")
       output_video = input_video.fx(vfx.resize, height=360)
       output_video=output_video.resize(0.5)
-      output_video.write_videofile("../videoscomp/"+"video.mp4",fps=30, preset="medium")
+      output_video.write_videofile("../videos/"+"video.mp4",fps=30, preset="medium")
       os.system('rm '+video+'.mp4')
     except:
       print(video+".mp4 ne peut etre compressée . Revoir le nom du fichier")
@@ -48,7 +48,7 @@ def compress(listVideo):
   
     
 
-os.chdir("../videos")
+os.chdir("../videosBrutes")
 result = subprocess.run(["ls", "-la"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 f=os.popen("ls -la")
 videos = extractListVideo(f.read())
