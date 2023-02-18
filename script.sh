@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VIDEO_DIR="./videos" # répertoire où se trouvent les vidéos
+VIDEO_DIR="./videosBrutes" # répertoire où se trouvent les vidéos
 DOCKER_COMPOSE_DIR="./" # répertoire où se trouve le fichier docker-compose.yml
 DOCKER_COMPOSE_NAME="docker-compose" # nom du docker-compose
 
