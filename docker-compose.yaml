@@ -8,11 +8,10 @@ services:
       - ./videosBrutes:/videosBrutes  
 
   lang_ident:
-    #image: bodrien/lang_ident:tag
     image: lang_ident
     environment:
-      START_TIME: "00:00:10"
-      DURATION: "00:00:05"
+      START_TIME: "00:00:00"
+      DURATION: "00:00:30"
     depends_on:
       pod_downscale:
         condition: service_completed_successfully
@@ -25,9 +24,6 @@ services:
 
   subtitle:
     image: corynnecharby/cloud1602:cloud_autosub
-    #build:
-      #context: ./Clouding
-      #dockerfile: Dockerfile
     depends_on:
       lang_ident:
         condition: service_completed_successfully
