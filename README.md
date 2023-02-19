@@ -1,4 +1,2 @@
 # Cloud
-
-
- docker run -e video_file="./Cloud/otters.mp4" -v $(pwd)/videos:/videos autosub
+ Cette branch contient les conteneurs à deployer sur chaque serveur
