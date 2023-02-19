@@ -1,0 +1,3 @@
+autosub /Users/Sarah/Documents/Cours/Cloud/otters.mp4
+doc : https://github.com/agermanidis/autosub
+

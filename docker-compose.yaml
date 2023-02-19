@@ -1,0 +1,53 @@
+version: "3"
+services:
+  pod_downscale:
+    container_name: downscale 
+    build: ./compression
+    volumes:
+      - ./videos:/videos
+      - ./videosBrutes:/videosBrutes  
+
+  lang_ident:
+    image: lang_ident
+    environment:
+      START_TIME: "00:00:00"
+      DURATION: "00:00:30"
+    depends_on:
+      pod_downscale:
+        condition: service_completed_successfully
+    build:
+      context: ./lang_ident
+      dockerfile: Dockerfile
+    volumes:
+      - ./videos:/videos
+      - ./audio:/audio
+
+  subtitle:
+    image: corynnecharby/cloud1602:cloud_autosub
+    depends_on:
+      lang_ident:
+        condition: service_completed_successfully
+    volumes:
+      - ./videos:/videos
+
+  rename-video:
+    image: rename
+    build:
+      context: ./rename
+      dockerfile: Dockerfile
+    depends_on:
+      subtitle:
+        condition: service_completed_successfully
+    volumes:
+      - ./videos:/videos
+
+  storage:
+    image: alpine:latest
+    volumes :
+      - ./storage:/storage
+      - ./videos:/videos
+    depends_on:
+     rename-video:
+        condition: service_completed_successfully
+    command: sh -c "cp -r /videos/* /storage/ && rm -r /videos/*"
+
