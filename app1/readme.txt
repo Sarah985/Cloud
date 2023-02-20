@@ -1,6 +1,6 @@
 Pour lancer ce container :
 
-sudo build -t app1 .
+sudo docker build -t app1 .
 
-sudo run -dit --name -p 8083:8083 app1
+sudo docker run -dit --name -p 80:8081 app1
 
