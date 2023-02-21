@@ -75,7 +75,7 @@ function sendToDynamo(filename,content){
   AWS.config.update({
     region: 'eu-west-3', // spécifier la région AWS où la table est créée
     accessKeyId: 'AKIAVMEE35Q5DAU5QT65',
-    secretAccessKey: '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'
+    secretAccessKey: ''
   });
   
   // Créer une instance de DocumentClient pour interagir avec DynamoDB
