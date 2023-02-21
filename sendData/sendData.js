@@ -1,5 +1,6 @@
 const fs = require('fs');
 const request = require('postman-request');
+const AWS = require('aws-sdk');
 //const fetch = require('node-fetch');
 
 import('node-fetch').then(fetch => {
@@ -8,7 +9,44 @@ import('node-fetch').then(fetch => {
   console.error(error);
 });
 
+const bucketName = 'afsbucket20'
 const dirPath = '/storage'; // Chemin du fichier à récupérer
+
+// Configuration de l'API AWS
+const s3 = new AWS.S3({
+  accessKeyId: '',
+  secretAccessKey: '',
+});
+
+function uploadS3(name, content, filePath) {
+  // Paramètres de la requête pour télécharger le fichier
+  const uploadParams = {
+    Bucket: bucketName,
+    Key: name,
+    Body: content,
+    ACL: 'public-read',
+    ContentType: 'text/plain',
+  };
+
+  console.log(content)
+  console.log(name)
+
+
+
+  // Envoi de la requête POST à Amazon S3
+  s3.upload(uploadParams, (err, data) => {
+    if (err) {
+      console.log("Erreur lors de l'envoi du fichier : ", err);
+    } else {
+      console.log('Fichier téléchargé avec succès : ', data.Location);
+      setTimeout(() => {
+        deleteFile(filePath);
+        sendFilesUntilEmpty(dirPath); // appel récursif de la fonction
+      }, 1000);
+    }
+  });
+}
+
 
 function isDirectoryEmpty(dirPath) {
   const files = fs.readdirSync(dirPath);
@@ -56,16 +94,26 @@ function readFileWithType(filePath) {
   return nature;
 }
 
+function getContentVideo(filePath) {
+  return fs.readFileSync(filePath);
+}
+
 function getContent(filePath) {
   return fs.readFileSync(filePath, 'utf8');
 }
 
-function getName(filePath) {
+function getNameExtensions(filePath) {
   return filePath.split('/').pop().toLowerCase();
 }
 
+function getName(filePath) {
+  fileExtension = filePath.split('/').pop().toLowerCase();
+  console.log(fileExtension.split('.')[0])
+  return fileExtension.split('.')[0];
+}
+
 function toJSON(nature, filePath) {
-  return { "filename" : getName(filePath), "nature": nature, "content": getContent(filePath) };
+  return { "filename": getName(filePath), "nature": nature, "content": getContent(filePath) };
 }
 
 function isVideo(nature) {
@@ -74,12 +122,13 @@ function isVideo(nature) {
 
 function sendFilesUntilEmpty(dirPath) {
   if (!isDirectoryEmpty(dirPath)) {
-
-
     const filePath = getFirstFileInDir(dirPath);
 
     const nature = readFileWithType(filePath);
     if (isVideo(nature)) {
+
+      uploadS3(getNameExtensions(filePath), getContentVideo(filePath), filePath)
+      /*
       const options = {
         method: 'POST',
         url: 'http://35.180.156.99/api/addvideo',
@@ -96,11 +145,12 @@ function sendFilesUntilEmpty(dirPath) {
         }
         console.log(body);
       });
-      
+
       setTimeout(() => {
         deleteFile(filePath);
         sendFilesUntilEmpty(dirPath); // appel récursif de la fonction
       }, 1000);
+      */
     }
     else {
       data = toJSON(nature, filePath)

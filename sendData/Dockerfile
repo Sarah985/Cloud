@@ -10,6 +10,7 @@ COPY . .
 # Installation des dépendances
 RUN npm install
 RUN npm install postman-request
+RUN npm install aws-sdk
 
 # Exécution de l'application
 CMD ["node", "sendData.js"]
