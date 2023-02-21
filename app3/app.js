@@ -76,8 +76,8 @@ app.listen(port, () => {
 
 function sendToS3(data) {
   const s3 = new AWS.S3({
-    accessKeyId: 'AKIAVMEE35Q5DAU5QT65',
-    secretAccessKey: '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',
+    accessKeyId: '',
+    secretAccessKey: '',
   });
 
   // Lecture du contenu du fichier à télécharger
@@ -105,8 +105,8 @@ function sendToS3(data) {
 function sendToDynamo(filename, content) {
   AWS.config.update({
     region: 'eu-west-3', // spécifier la région AWS où la table est créée
-    accessKeyId: 'AKIAVMEE35Q5DAU5QT65',
-    secretAccessKey: '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'
+    accessKeyId: '',
+    secretAccessKey: ''
   });
 
   // Créer une instance de DocumentClient pour interagir avec DynamoDB
