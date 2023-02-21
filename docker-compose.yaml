@@ -51,3 +51,14 @@ services:
         condition: service_completed_successfully
     command: sh -c "cp -r /videos/* /storage/ && rm -r /videos/*"
 
+  send_data:
+    image: send_data
+    build:
+      context: ./sendData
+      dockerfile: Dockerfile
+    depends_on:
+      storage:
+        condition: service_completed_successfully
+    volumes:
+      - ./storage:/storage
+
