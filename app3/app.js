@@ -46,7 +46,7 @@ app.listen(port, () => {
 function sendToS3(data){
   const s3 = new AWS.S3({
     accessKeyId: 'AKIAVMEE35Q5DAU5QT65',
-    secretAccessKey: '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',
+    secretAccessKey: '',
   });
   
   // Lecture du contenu du fichier à télécharger
