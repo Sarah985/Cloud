@@ -45,7 +45,7 @@ app.listen(port, () => {
 
 function sendToS3(data){
   const s3 = new AWS.S3({
-    accessKeyId: 'AKIAVMEE35Q5DAU5QT65',
+    accessKeyId: '',
     secretAccessKey: '',
   });
   
