@@ -74,7 +74,7 @@ function sendToS3(data){
 function sendToDynamo(filename,content){
   AWS.config.update({
     region: 'eu-west-3', // spécifier la région AWS où la table est créée
-    accessKeyId: 'AKIAVMEE35Q5DAU5QT65',
+    accessKeyId: '',
     secretAccessKey: ''
   });
   
